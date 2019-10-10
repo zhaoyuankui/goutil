@@ -1,2 +1,2 @@
-# go-testutil
-Test utilities for go
+# goutil
+Utilities for go.
