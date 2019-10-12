@@ -31,7 +31,7 @@ func Test_RetrieveField(t *testing.T) {
 func Test_SliceAscertain(t *testing.T) {
 	array := []interface{}{1, 2, 3, 4}
 	var intArry []int
-	intArry = SliceAscertain(array, 0).([]int)
+	intArry = SliceAscertain(array, reflect.TypeOf(0)).([]int)
 	if intArry[0] != 1 {
 		t.Error("Slice ascertain failed.")
 	}

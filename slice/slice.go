@@ -32,12 +32,11 @@ func SliceRetrieveField(slice interface{}, field string) interface{} {
 	return res.Interface()
 }
 
-func SliceAscertain(slice interface{}, hint interface{}) interface{} {
+func SliceAscertain(slice interface{}, elemType reflect.Type) interface{} {
 	kind := reflect.TypeOf(slice).Kind()
 	if kind != reflect.Slice {
 		return reflect.ValueOf(nil)
 	}
-	elemType := reflect.TypeOf(hint)
 	sliceType := reflect.SliceOf(elemType)
 	s := reflect.ValueOf(slice)
 	l := s.Len()
