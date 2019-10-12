@@ -40,7 +40,7 @@ func Test_SliceAscertain(t *testing.T) {
 func Test_SliceBlur(t *testing.T) {
 	array := []int{1, 2, 3, 4}
 	var infArry []interface{}
-	infArry = SliceBlur(array).([]interface{})
+	infArry = SliceBlur(array)
 	if infArry[0].(int) != 1 {
 		t.Error("Slice blur failed.")
 	}

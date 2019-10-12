@@ -54,10 +54,10 @@ func SliceAscertain(slice interface{}, hint interface{}) interface{} {
 	return res.Interface()
 }
 
-func SliceBlur(slice interface{}) interface{} {
+func SliceBlur(slice interface{}) []interface{} {
 	kind := reflect.TypeOf(slice).Kind()
 	if kind != reflect.Slice {
-		return reflect.ValueOf(nil).Interface()
+		return []interface{}(nil)
 	}
 	s := reflect.ValueOf(slice)
 	l := s.Len()
