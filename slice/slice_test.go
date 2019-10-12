@@ -2,7 +2,7 @@
 // @Author zhaoyuankui@p1.com
 // @Date 2018/12/04
 
-package util
+package slice
 
 import (
 	"reflect"
