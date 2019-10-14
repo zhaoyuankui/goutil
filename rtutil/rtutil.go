@@ -3,6 +3,7 @@ package rtutil
 
 import (
 	"fmt"
+	"reflect"
 	"runtime"
 	"strings"
 )
@@ -44,4 +45,13 @@ func Caller(n int) string {
 	}
 
 	return name
+}
+
+// IsZero checks the value is the zero value of type t.
+// Has the identical semantic of reflect.IsZero in go 1.13.
+func IsZero(value reflect.Value, t reflect.Type) bool {
+	if !value.IsValid() {
+		return false
+	}
+	return reflect.DeepEqual(value.Interface(), reflect.Zero(t).Interface())
 }
