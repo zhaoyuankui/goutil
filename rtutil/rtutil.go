@@ -35,7 +35,7 @@ func Caller(n int) string {
 		// method of struct
 		sname := list[len(list)-2]
 		if len(sname) > 1 && sname[0] == '(' && sname[len(sname)-1] == ')' {
-			sname = sname[1 : len(sname)-2]
+			sname = sname[1 : len(sname)-1]
 			if len(sname) > 0 && sname[0] == '*' {
 				sname = sname[1:]
 			}
