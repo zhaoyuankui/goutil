@@ -12,7 +12,7 @@ import (
 
 // SliceRetrieveField retrieves values of a field of objects in a slice
 // to another slice of the field type wrapped by reflect.Value.
-func SliceRetrieveField(slice interface{}, field string) interface{} {
+func RetrieveField(slice interface{}, field string) interface{} {
 	kind := reflect.TypeOf(slice).Kind()
 	if kind != reflect.Slice {
 		return reflect.ValueOf(nil)
@@ -32,7 +32,7 @@ func SliceRetrieveField(slice interface{}, field string) interface{} {
 	return res.Interface()
 }
 
-func SliceAscertain(slice interface{}, elemType reflect.Type) interface{} {
+func Ascertain(slice interface{}, elemType reflect.Type) interface{} {
 	kind := reflect.TypeOf(slice).Kind()
 	if kind != reflect.Slice {
 		return reflect.ValueOf(nil)
@@ -53,7 +53,7 @@ func SliceAscertain(slice interface{}, elemType reflect.Type) interface{} {
 	return res.Interface()
 }
 
-func SliceBlur(slice interface{}) []interface{} {
+func Blur(slice interface{}) []interface{} {
 	kind := reflect.TypeOf(slice).Kind()
 	if kind != reflect.Slice {
 		return []interface{}(nil)
@@ -67,7 +67,7 @@ func SliceBlur(slice interface{}) []interface{} {
 	return res
 }
 
-func SliceUpgrade(slice interface{}, t reflect.Type) interface{} {
+func Upgrade(slice interface{}, t reflect.Type) interface{} {
 	sliceType := reflect.SliceOf(t)
 	if nil == slice {
 		return reflect.Zero(sliceType).Interface()
@@ -85,7 +85,7 @@ func SliceUpgrade(slice interface{}, t reflect.Type) interface{} {
 	return res.Interface()
 }
 
-func SliceFilterByField(slice interface{}, field string, cond string, value interface{}) interface{} {
+func FilterByField(slice interface{}, field string, cond string, value interface{}) interface{} {
 	kind := reflect.TypeOf(slice).Kind()
 	if kind != reflect.Slice {
 		return nil
@@ -148,7 +148,7 @@ func testCondition(f reflect.Value, cond string, value interface{}) bool {
 	}
 }
 
-func SliceSubtract(s1 interface{}, s2 interface{}) interface{} {
+func Subtract(s1 interface{}, s2 interface{}) interface{} {
 	kind1 := reflect.TypeOf(s1).Kind()
 	kind2 := reflect.TypeOf(s2).Kind()
 	if kind1 != reflect.Slice || kind1 != kind2 {

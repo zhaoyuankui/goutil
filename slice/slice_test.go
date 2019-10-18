@@ -21,26 +21,26 @@ func Test_RetrieveField(t *testing.T) {
 		{A: "bbb"},
 		{A: "ccc"},
 	}
-	res := SliceRetrieveField(array, "A")
+	res := RetrieveField(array, "A")
 	As := res.([]string)
 	if !(As[0] == "aaa" && As[1] == "bbb" && As[2] == "ccc") {
 		t.Error("Res", As)
 	}
 }
 
-func Test_SliceAscertain(t *testing.T) {
+func Test_Ascertain(t *testing.T) {
 	array := []interface{}{1, 2, 3, 4}
 	var intArry []int
-	intArry = SliceAscertain(array, reflect.TypeOf(0)).([]int)
+	intArry = Ascertain(array, reflect.TypeOf(0)).([]int)
 	if intArry[0] != 1 {
 		t.Error("Slice ascertain failed.")
 	}
 }
 
-func Test_SliceBlur(t *testing.T) {
+func Test_Blur(t *testing.T) {
 	array := []int{1, 2, 3, 4}
 	var infArry []interface{}
-	infArry = SliceBlur(array)
+	infArry = Blur(array)
 	if infArry[0].(int) != 1 {
 		t.Error("Slice blur failed.")
 	}
@@ -101,7 +101,7 @@ func Test_testCondition(t *testing.T) {
 	}
 }
 
-func Test_SliceFilterByField(t *testing.T) {
+func Test_FilterByField(t *testing.T) {
 	slice := []testType{
 		{
 			A: 1,
@@ -112,57 +112,57 @@ func Test_SliceFilterByField(t *testing.T) {
 			B: int64(4),
 		},
 	}
-	res := SliceFilterByField(slice, "A", "eq", 1).([]testType)
+	res := FilterByField(slice, "A", "eq", 1).([]testType)
 	if len(res) != 1 || res[0].A != 1 {
 		t.Error("Test SliceFilterByField failed")
 	}
-	res = SliceFilterByField(slice, "B", "eq", 2).([]testType)
+	res = FilterByField(slice, "B", "eq", 2).([]testType)
 	if len(res) != 1 || res[0].B != int64(2) {
 		t.Error("Test SliceFilterByField failed")
 	}
-	res = SliceFilterByField(slice, "B", "eq", "abc").([]testType)
+	res = FilterByField(slice, "B", "eq", "abc").([]testType)
 	if len(res) != 0 {
 		t.Error("Test SliceFilterByField failed")
 	}
-	res2 := SliceFilterByField(123, "B", "eq", "abc")
+	res2 := FilterByField(123, "B", "eq", "abc")
 	if nil != res2 {
 		t.Error("Test SliceFilterByField failed")
 	}
-	res2 = SliceFilterByField(slice, "C", "eq", 2)
+	res2 = FilterByField(slice, "C", "eq", 2)
 	if nil != res2 {
 		t.Error("Test SliceFilterByField failed")
 	}
 
-	res = SliceFilterByField(slice, "A", "in", []int{1, 2, 3}).([]testType)
+	res = FilterByField(slice, "A", "in", []int{1, 2, 3}).([]testType)
 	if len(res) != 2 || res[0].A != 1 || res[1].A != 3 {
 		t.Error("Test SliceFilterByField failed")
 	}
-	res = SliceFilterByField(slice, "B", "in", []int{1, 2, 3}).([]testType)
+	res = FilterByField(slice, "B", "in", []int{1, 2, 3}).([]testType)
 	if len(res) != 1 || res[0].A != 1 {
 		t.Error("Test SliceFilterByField failed")
 	}
 }
 
-func Test_SliceSubtract(t *testing.T) {
+func Test_Subtract(t *testing.T) {
 	s1 := []int{1, 2, 3, 4, 5}
 	s2 := []int{2, 3, 4, 7}
-	res := SliceSubtract(s1, s2).([]int)
+	res := Subtract(s1, s2).([]int)
 	if !reflect.DeepEqual(res, []int{1, 5}) {
 		t.Error("SliceSubtract failed")
 	}
-	res = SliceSubtract(s2, s1).([]int)
+	res = Subtract(s2, s1).([]int)
 	if !reflect.DeepEqual(res, []int{7}) {
 		t.Error("SliceSubtract failed")
 	}
-	res = SliceSubtract(s2, s2).([]int)
+	res = Subtract(s2, s2).([]int)
 	if !reflect.DeepEqual(len(res), 0) {
 		t.Error("SliceSubtract failed")
 	}
-	res = SliceSubtract(s2, []int{}).([]int)
+	res = Subtract(s2, []int{}).([]int)
 	if !reflect.DeepEqual(res, s2) {
 		t.Error("SliceSubtract failed")
 	}
-	res = SliceSubtract([]int{}, s2).([]int)
+	res = Subtract([]int{}, s2).([]int)
 	if !reflect.DeepEqual(len(res), 0) {
 		t.Error("SliceSubtract failed")
 	}
@@ -207,21 +207,21 @@ type foo1 struct{}
 
 func (f foo1) Foo() {}
 
-func Test_SliceUpgrade(t *testing.T) {
+func Test_Upgrade(t *testing.T) {
 	foo1s := []foo1{foo1{}, foo1{}, foo1{}}
-	foos := SliceUpgrade(foo1s, reflect.TypeOf((*foo)(nil)).Elem()).([]foo)
+	foos := Upgrade(foo1s, reflect.TypeOf((*foo)(nil)).Elem()).([]foo)
 	assert.Equal(t, len(foos), 3)
 	// Upgrade type not valid
 	assert.Panics(t, func() {
-		SliceUpgrade(foo1s, reflect.TypeOf((*bar)(nil)).Elem())
+		Upgrade(foo1s, reflect.TypeOf((*bar)(nil)).Elem())
 	})
 	// No elements
-	foos = SliceUpgrade([]foo1{}, reflect.TypeOf((*foo)(nil)).Elem()).([]foo)
+	foos = Upgrade([]foo1{}, reflect.TypeOf((*foo)(nil)).Elem()).([]foo)
 	assert.Equal(t, len(foos), 0)
 	// Not slice type
-	foos = SliceUpgrade(1, reflect.TypeOf((*foo)(nil)).Elem()).([]foo)
+	foos = Upgrade(1, reflect.TypeOf((*foo)(nil)).Elem()).([]foo)
 	assert.Equal(t, foos, []foo(nil))
 	// Nil pointer
-	foos = SliceUpgrade(nil, reflect.TypeOf((*foo)(nil)).Elem()).([]foo)
+	foos = Upgrade(nil, reflect.TypeOf((*foo)(nil)).Elem()).([]foo)
 	assert.Equal(t, foos, []foo(nil))
 }
