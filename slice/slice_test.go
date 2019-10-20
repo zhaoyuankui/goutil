@@ -26,6 +26,10 @@ func Test_RetrieveField(t *testing.T) {
 	if !(As[0] == "aaa" && As[1] == "bbb" && As[2] == "ccc") {
 		t.Error("Res", As)
 	}
+	assert.Nil(t, RetrieveField(nil, "A"))
+	assert.Nil(t, RetrieveField("ABC", "A"))
+	assert.Nil(t, RetrieveField([]TestRetrieve{}, "B"))
+	assert.Empty(t, RetrieveField([]TestRetrieve{}, "A").([]string))
 }
 
 func Test_Ascertain(t *testing.T) {

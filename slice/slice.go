@@ -13,17 +13,21 @@ import (
 // SliceRetrieveField retrieves values of a field of objects in a slice
 // to another slice of the field type wrapped by reflect.Value.
 func RetrieveField(slice interface{}, field string) interface{} {
+	if nil == slice {
+		return nil
+	}
 	kind := reflect.TypeOf(slice).Kind()
 	if kind != reflect.Slice {
-		return reflect.ValueOf(nil)
+		return nil
 	}
 	s := reflect.ValueOf(slice)
 	l := s.Len()
-	if l <= 0 {
-		return reflect.ValueOf(nil)
+	elemType := reflect.TypeOf(slice).Elem()
+	elemField, found := elemType.FieldByName(field)
+	if !found {
+		return nil
 	}
-	fieldType := s.Index(0).FieldByName(field).Type()
-	res := reflect.MakeSlice(reflect.SliceOf(fieldType), 0, l)
+	res := reflect.MakeSlice(reflect.SliceOf(elemField.Type), 0, l)
 	for i := 0; i < l; i++ {
 		obj := s.Index(i)
 		val := obj.FieldByName(field)
