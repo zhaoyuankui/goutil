@@ -1,6 +1,7 @@
 package strutil
 
 import (
+	"io/ioutil"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
@@ -29,4 +30,14 @@ func Test_ReplaceInvalidRune(t *testing.T) {
 	assert.Equal(t, ReplaceInvalidRune("\x80\xf0赵钱孙\xff\xfe\x88\x89李周武"), "**赵钱孙****李周武")
 	assert.Equal(t, ReplaceInvalidRune("\x80\xf0赵钱孙\xff\xfe\x88\x89李周武\x99"), "**赵钱孙****李周武*")
 	assert.Equal(t, ReplaceInvalidRune("\x80\xf0赵钱孙\xff\xfe\x88\x89李周武\x99\x9a"), "**赵钱孙****李周武**")
+}
+
+func Benchmark_ReplaceInvalidRune(b *testing.B) {
+	dat, err := ioutil.ReadFile("testdata/invalid.dat")
+	assert.Nil(b, err)
+	str := string(dat)
+	b.ResetTimer()
+	for i := 0; i < b.N; i++ {
+		ReplaceInvalidRune(str)
+	}
 }
