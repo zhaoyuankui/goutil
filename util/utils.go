@@ -4,7 +4,12 @@ import (
 	"bytes"
 	"encoding/gob"
 	"fmt"
+	"math/rand"
 	"reflect"
+)
+
+const (
+	alpha = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890_"
 )
 
 func init() {
@@ -47,4 +52,21 @@ func Clone(obj interface{}) (interface{}, error) {
 		return nil, err
 	}
 	return cln, nil
+}
+
+// RandString returns a random string at lenght n with characters [a-zA-Z0-9_].
+// You should set the rand seed at your application initialization like:
+// func init() {
+// 	rand.Seed(int64(time.Now().Nanosecond()))
+// }
+func RandString(n int) string {
+	if n == 0 {
+		return ""
+	}
+	l := len(alpha)
+	buff := bytes.Buffer{}
+	for i := 0; i < n; i++ {
+		buff.WriteRune(rune(alpha[rand.Intn(l)]))
+	}
+	return buff.String()
 }
