@@ -30,7 +30,6 @@ func Caller(n int) string {
 	list := strings.Split(fullName[idx+1:], ".")
 	name := list[len(list)-1]
 
-	fmt.Printf("list: %+v\n", list)
 	if len(list) > 2 {
 		// method of struct
 		sname := list[len(list)-2]
